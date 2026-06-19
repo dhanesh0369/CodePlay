@@ -1,0 +1,58 @@
+name: Deploy to InfinityFree
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - name: Create Production config.php
+        run: |
+          cat << 'EOF' > config.php
+          <?php
+          // config.php - Live database configuration for InfinityFree
+          $host = '${{ secrets.DB_HOST }}';
+          $db   = '${{ secrets.DB_NAME }}';
+          $user = '${{ secrets.DB_USER }}';
+          $pass = '${{ secrets.DB_PASS }}';
+          $port = '3306';
+          $charset = 'utf8mb4';
+
+          $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
+          $options = [
+              PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, 
+              PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+              PDO::ATTR_EMULATE_PREPARES   => false,
+          ];
+
+          try {
+              $pdo = new PDO($dsn, $user, $pass, $options);
+          } catch (\PDOException $e) {
+              die('Database connection failed: ' . $e->getMessage());
+          }
+          ?>
+          EOF
+
+      - name: Sync files to InfinityFree FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: htdocs/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            README.md
+            database_setup.sql
+            deploy.py
+            deploy_curl.py
+            *cyberpunk*
