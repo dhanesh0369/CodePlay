@@ -85,3 +85,29 @@ Open your browser and navigate to:
 `http://localhost/CodePlay/login.html`
 
 Register an account, log in, select a template, and start building!
+
+---
+
+## 🌐 Live Deployment (InfinityFree)
+
+To host your CodePlay project online for free without a credit card, you can deploy it to **InfinityFree**:
+
+### 1. Database Configuration
+1. Sign up at [infinityfree.com](https://www.infinityfree.com/) and create a free hosting account.
+2. In your VistaPanel, go to **MySQL Databases** and create a new database.
+3. Open **phpMyAdmin**, select your database, and import the `database_setup.sql` schema.
+
+### 2. Uploading Files
+1. Open the **Online File Manager** (or connect via FTP).
+2. Open the `htdocs` folder.
+3. Upload all the project files from your computer (except the `.git` folder) directly into `htdocs`.
+
+### 3. Setup Live Credentials
+Open the `config.php` file inside the Online File Manager and edit lines 3–7 with your actual database details from the dashboard:
+```php
+$host = 'sqlXXX.infinityfree.com'; // Live MySQL Hostname
+$db   = 'epiz_XXXXXXXX_codeplay'; // Live Database Name
+$user = 'epiz_XXXXXXXX';          // Live Database Username
+$pass = 'your_live_db_password';  // Live Database Password
+```
+Save your changes, and visit your live subdomain URL (e.g. `http://your-subdomain.great-site.net/login.html`) to start playing!
