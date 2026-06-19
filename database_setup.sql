@@ -1,10 +1,5 @@
 -- Database setup for CodePlay application
 
--- Create database if it doesn't exist
-CREATE DATABASE IF NOT EXISTS codeplay;
-
--- Use the codeplay database
-USE codeplay;
 
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (
