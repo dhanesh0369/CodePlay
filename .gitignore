@@ -1,0 +1,20 @@
+# Database/Environment Config
+.env
+.env.local
+config.local.php
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Media/Videos (Heavy files)
+*.mp4

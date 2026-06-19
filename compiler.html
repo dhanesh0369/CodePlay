@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Code Compiler - CodePlay</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    textarea, pre { font-family: monospace; }
+    #output { background: #000; color: #0f0; padding: 1rem; height: 200px; overflow-y: auto; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.php">
+        <img src="logo.png" alt="CodePlay Logo" class="logo me-2" style="height: 40px; width: auto;">
+        CodePlay
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.php">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="CG.php">Create Game</a></li>
+          <li class="nav-item"><a class="nav-link" href="my_games.php">My Games</a></li>
+          <li class="nav-item"><a class="nav-link active" href="compiler.html">Try Code</a></li>
+          <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5 mb-5">
+    <h2 class="mb-4">Try Code in Any Language</h2>
+
+    <form id="compileForm">
+      <div class="mb-3">
+        <label for="language" class="form-label fw-semibold">Select Language:</label>
+        <select class="form-select" id="language" required>
+          <option value="54">C++</option>
+          <option value="62">Java</option>
+          <option value="71">Python</option>
+          <option value="63">JavaScript</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="sourceCode" class="form-label fw-semibold">Code:</label>
+        <textarea class="form-control" id="sourceCode" rows="12" placeholder="Write your code here..." required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-success px-4">Run Code</button>
+    </form>
+
+    <div class="mt-4">
+      <h5 class="fw-semibold">Execution Output:</h5>
+      <pre id="output" class="rounded">Waiting for output...</pre>
+    </div>
+  </div>
+
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+    <p class="mb-0">© 2025 CodePlay. All Rights Reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('compileForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const source_code = document.getElementById('sourceCode').value;
+      const language_id = document.getElementById('language').value;
+
+      const outputPre = document.getElementById('output');
+      outputPre.textContent = 'Compiling and running code...';
+
+      try {
+        const response = await fetch('run_game.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ source_code, language_id })
+        });
+
+        const result = await response.json();
+        outputPre.textContent =
+          result.stdout || result.stderr || result.compile_output || result.message || 'No output.';
+      } catch (err) {
+        outputPre.textContent = 'Failed to execute: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
