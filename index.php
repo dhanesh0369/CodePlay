@@ -1,4 +1,5 @@
 <?php
+// CodePlay Dashboard - Version 1.0.0
 session_start();
 if (!isset($_SESSION['user_id'])) {
   header("Location: login.html");
