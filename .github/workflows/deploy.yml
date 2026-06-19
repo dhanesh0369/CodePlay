@@ -12,6 +12,15 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
+      - name: Start GitHub Deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: production
+          desc: "Deploying CodePlay to InfinityFree Production"
+
       - name: Create Production config.php
         run: |
           cat << 'EOF' > config.php
@@ -56,3 +65,14 @@ jobs:
             deploy.py
             deploy_curl.py
             *cyberpunk*
+
+      - name: Update GitHub Deployment Status
+        uses: bobheadxi/deployments@v1
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          env: production
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: http://codeplay-dhanesh.great-site.net/login.html
