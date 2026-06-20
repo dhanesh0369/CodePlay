@@ -35,6 +35,7 @@ CodePlay/
 ├── CG.php                  # Interactive template chooser page
 ├── config.php              # Database connections using PDO & environment vars
 ├── database_setup.sql      # SQL schema to setup tables (users, games)
+├── compiler.html           # Simple compiler to test Python, C++, Java, etc.
 ├── editor.php              # Split-screen editor, pre-loads templates & loads saved games
 ├── index.php               # Main dashboard with user links
 ├── login.html              # HTML login page
