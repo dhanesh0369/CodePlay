@@ -4,6 +4,13 @@ CodePlay is a web-based playground for coding, playing, and sharing games. It fe
 
 ---
 
+## 🔗 Live Demo
+
+Click the link below to access the live deployed website:
+👉 **[codeplay-dhanesh.great-site.net](http://codeplay-dhanesh.great-site.net/login.html)**
+
+---
+
 ## 🚀 Features
 
 - **User Authentication**: Secure signup and login with password hashing.
